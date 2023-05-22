@@ -3,10 +3,10 @@ from django.shortcuts import render,HttpResponse
 # Create your views here.
 
 def signIn(request):
-    return HttpResponse("signIn")
+    return render(request,"account/signIn.html")
 
 def signUp(request):
-    return HttpResponse("signUp")
+    return render(request,"account/signUp.html")
 
 def signOut(request):
-    return HttpResponse("signOut")
+    return HttpResponse("Logout")
