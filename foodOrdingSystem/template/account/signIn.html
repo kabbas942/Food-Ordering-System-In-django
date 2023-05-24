@@ -8,6 +8,16 @@
       {% csrf_token %}
         <img class="mb-4" src="../static/img/fast-food.png"  width="40%" height="40%">
         <h1 class="h3 mb-3 fw-normal">SignIn to Foodia</h1>
+        
+        {% if messages %}
+       
+          {% for message in messages %}
+          <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+          {% endfor %}
+    
+            
+        {% endif %}
+          
         <div class="form-floating">
           <input type="email" name="username" class="form-control" id="floatingInput" placeholder="name@example.com" required>
           <label for="floatingInput">Email address</label>

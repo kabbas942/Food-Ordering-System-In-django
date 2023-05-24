@@ -15,6 +15,7 @@ def signIn(request):
             login(request,accountData)
             return redirect('/foodStuff')
         else:
+            messages.warning(request, "Email Or Password is Invalid")
             return render(request,'account/signIn.html')
     return render(request,"account/signIn.html")
 
@@ -29,8 +30,12 @@ def signUp(request):
         email= request.POST.get("email")
         password= request.POST.get("password")
         getUserModel=get_user_model()
-        createUser = getUserModel.objects.create_user(first_name = name, username=email, password=password, email=email)
+        createUser = getUserModel.objects.create_user(first_name = name, username=email, password=password)
         createUser.save()
+        messages.success(request, "Foodia Account Created Successfully")
+        return render(request,"foodStuff/index.html")
+    else:
+        return render(request,"account/signUp.html")       
     return render(request,"account/signUp.html")
 
 

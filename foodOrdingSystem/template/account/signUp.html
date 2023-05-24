@@ -6,7 +6,7 @@
     <main class="form-signin">
       <form method="post" action="{% url 'signUp' %}">
         {% csrf_token %}
-        <img class="mb-4" src="" alt="" width="72" height="57">
+        <img class="mb-4" src="../static/img/fast-food.png"  width="40%" height="40%">
         <h1 class="h3 mb-3 fw-normal">Create Foodia Account</h1>    
         <div class="form-floating">
           <input type="text" name="name" class="form-control" placeholder="Name" required>
