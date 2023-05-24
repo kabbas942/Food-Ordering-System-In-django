@@ -1,12 +1,37 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout,get_user_model
 
 # Create your views here.
 
 def signIn(request):
+    if request.method=="POST":
+        username = request.POST.get('username')
+        userPassword = request.POST.get('password')
+        accountData =authenticate(username=username, password=userPassword) 
+        print(accountData)
+        if accountData is not None:
+            login(request,accountData)
+            return redirect('/foodStuff')
+        else:
+            return render(request,'account/signIn.html')
     return render(request,"account/signIn.html")
 
-def signUp(request):
-    return render(request,"account/signUp.html")
 
 def signOut(request):
+    #logout(request)
     return HttpResponse("Logout")
+
+def signUp(request):
+    if request.method=="POST":
+        name= request.POST.get("name")
+        email= request.POST.get("email")
+        password= request.POST.get("password")
+        getUserModel=get_user_model()
+        createUser = getUserModel.objects.create_user(first_name = name, username=email, password=password, email=email)
+        createUser.save()
+    return render(request,"account/signUp.html")
+
+
+
