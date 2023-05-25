@@ -1,19 +1,30 @@
 from django.db import models
 from baseFiles.models import BaseModel
+from django.contrib.auth.models import User
 # Create your models here.
-
-class SubCategory(BaseModel):
-    subCategoryName = models.CharField(max_length=100)
-    subCategoryImage = models.ImageField()    
-
-class Category(BaseModel):
+class FoodCategory(BaseModel): 
     categoryName = models.CharField(max_length=100)
-    categoryImage = models.ImageField()    
-
-class Product(BaseModel):
+    categoryImage = models.ImageField(upload_to="Category")
+    
+    def __str__(self):
+        return self.categoryName
+    
+class FoodSubCategory(BaseModel):
+    subCategoryName = models.CharField(max_length=100)
+    subCategoryImage = models.ImageField(upload_to="subCategory")
+    foodCategory = models.ForeignKey(FoodCategory,on_delete=models.CASCADE,related_name="foodSubCategory",null=True,blank=True)    
+  
+class FoodProduct(BaseModel):
     foodName = models.CharField(max_length=100)
-    foodCategory = models.CharField(max_length=100)
-    foodSubCategory = models.CharField( max_length=1000)
-    product_description = models.TextField()
-    price = models.IntegerField()
+    foodCategory = models.ForeignKey(FoodCategory,on_delete=models.CASCADE,related_name="foodCategory",null=True,blank=True)    
+    foodSubCategory = models.ForeignKey(FoodSubCategory,on_delete=models.CASCADE,related_name="foodSubCategory",null=True,blank=True)    
+    foodProductDescription = models.TextField()
+    foodPrice = models.IntegerField()
+    foodProductImage = models.ImageField(upload_to="foodProduct")
     #slug = models.SlugField(unique=True,null=True, blank=True)
+
+class FoodCart(models.Model):
+    foodProduct = models.ForeignKey(FoodProduct, on_delete=models.CASCADE,related_name="foodCart",null=True,blank=True)
+    foodQuantity = models.PositiveIntegerField()
+    foodPrice = models.DecimalField(max_digits=10, decimal_places=2)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="userCart",null=True,blank=True)
