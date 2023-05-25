@@ -33,7 +33,7 @@ def signUp(request):
         createUser = getUserModel.objects.create_user(first_name = name, username=email, password=password)
         createUser.save()
         messages.success(request, "Foodia Account Created Successfully")
-        return render(request,"foodStuff/index.html")
+        return render(request,"account/signIn.html")
     else:
         return render(request,"account/signUp.html")       
     return render(request,"account/signUp.html")
