@@ -19,19 +19,20 @@ def about(request):
 
 def search(request):
     if request.method == 'GET':
-        query = request.GET.get('foodProductSearch')  # Get the search query from the request's GET parameters
+        query = request.GET.get('foodProductSearch') 
+        # Get the search query from the request's GET parameters
         foodProductList = FoodProduct.objects.filter(foodName__icontains=query)  # Perform case-insensitive search on the 'name' field
+        
         if foodProductList:
             foodProductList = foodProductList | FoodProduct.objects.filter(foodProductDescription__icontains=query)
             foodProductList = foodProductList | FoodProduct.objects.filter(foodCategory__categoryName__icontains=query)
-            productParameter={'products':foodProductList,'search': query}
+            productParameter={'foodProducts':foodProductList,'foodSearch': query}
         else:
             foodProductList = FoodProduct.objects.filter(foodCategory__categoryName__icontains=query)
             productParameter={'foodProducts':foodProductList,'foodSearch': query}
-
-                
+            
               
-        
+        print(foodProductList)
         return render(request,"foodStuff/search.html",productParameter)
     return redirect("/foodStuff")
 

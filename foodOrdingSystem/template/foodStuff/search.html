@@ -3,13 +3,13 @@
 <main>  
     <div class="album py-5 bg-light">
       <div class="container">        
-        {% if categoryName %}
-        <h1 class="">{{categoryName}} Range</h1>            
+        {% if foodSearch %}
+        <p class="">Search By<b> {{foodSearch}} </b></p>            
         {% endif %}          
   <hr>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          {% if foodProduct %}          
-          {% for product in foodProduct  %} 
+          {% if foodProducts %}          
+          {% for product in foodProducts  %} 
           <!--foodCategory-->
           <a href="/foodStuff/productFoodStuff/{{product.uid}}" class="text-dark" style="text-decoration: none;">        
           <div class="col">
