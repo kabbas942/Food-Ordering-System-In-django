@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
+{% block title %}
+        
+{% if categoryName %}
+Category           
+{% endif %}     
+{% if foodSearch %}
+Search           
+{% endif %}
 
+{% endblock title %}
 {% block body %}
        
 <main>
@@ -9,7 +18,10 @@
         
         {% if categoryName %}
         <h1 class="">{{categoryName}} Range</h1>            
-        {% endif %}
+        {% endif %}     
+        {% if foodSearch %}
+        <p class="">Search By<b> {{foodSearch}} </b></p>            
+        {% endif %} 
             
 
   <hr>
@@ -19,7 +31,7 @@
           {% if foodProduct %}          
           {% for product in foodProduct  %} 
           <!--foodCategory-->
-          <a href="/foodStuff/productFoodStuff/{{product.uid}}" class="text-dark" style="text-decoration: none;">        
+          <a href="/foodStuff/foodDescription/{{product.uid}}" class="text-dark" style="text-decoration: none;">        
           <div class="col">
             <div class="card shadow-sm">
               <img class="bd-placeholder-img card-img-top" width="100%" height="250px" src="/media/{{product.foodProductImage}}">

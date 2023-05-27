@@ -10,7 +10,6 @@ def signIn(request):
         username = request.POST.get('username')
         userPassword = request.POST.get('password')
         accountData =authenticate(username=username, password=userPassword) 
-        print(accountData)
         if accountData is not None:
             login(request,accountData)
             return redirect('/foodStuff')

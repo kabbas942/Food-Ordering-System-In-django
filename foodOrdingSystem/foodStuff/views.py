@@ -26,14 +26,14 @@ def search(request):
         if foodProductList:
             foodProductList = foodProductList | FoodProduct.objects.filter(foodProductDescription__icontains=query)
             foodProductList = foodProductList | FoodProduct.objects.filter(foodCategory__categoryName__icontains=query)
-            productParameter={'foodProducts':foodProductList,'foodSearch': query}
+            productParameter={'foodProduct':foodProductList,'foodSearch': query}
         else:
             foodProductList = FoodProduct.objects.filter(foodCategory__categoryName__icontains=query)
-            productParameter={'foodProducts':foodProductList,'foodSearch': query}
-            
-              
-        print(foodProductList)
-        return render(request,"foodStuff/search.html",productParameter)
+            productParameter={'foodProduct':foodProductList,'foodSearch': query}
+        return render(request,"foodStuff/foodProducts.html",productParameter)
     return redirect("/foodStuff")
 
-    return render(request,"foodStuff/about.html") 
+
+def foodDescription(request,foodId):
+    productDescription = FoodProduct.objects.get(uid = foodId)
+    return render(request,"foodStuff/foodDescription.html",{'productDescription':productDescription})
