@@ -29,10 +29,14 @@
                         <div class="col-lg-12 mt-3">
                             <div class="row">
                                 <div class="col-lg-6 pb-2">
-                                    <a href="#" class="btn btn-dark w-100">Add To Cart</a>
-                                </div>
-                                <div class="col-lg-6">
-                                    <a href="#" class="btn btn-dark w-100">Shop Now</a>
+                                <form method="POST" action="{% url 'addToCart' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="foodItemId" value="{{productDescription.uid}}">                                 
+                                    <button type="submit" class="btn btn btn-outline-dark w-100" name="submit">Add to Cart</button>                         
+                                </form>
+                            </div>                                  
+                            <div class="col-lg-6">
+                                    <a href="#" class="btn btn btn-outline-dark w-100">Shop Now</a>
                                 </div>
                             </div>
                         </div>

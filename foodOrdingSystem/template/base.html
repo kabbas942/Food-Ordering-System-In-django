@@ -75,12 +75,19 @@
                 <form class="d-flex" method="get" action="{% url 'foodSearch' %}">
                   {% csrf_token %}
                     <input class="form-control me-2" type="search" name="foodProductSearch" placeholder="Search" aria-label="Search" required>
-                    <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-outline-light"  type="submit"  ><i class="fas fa-search"></i></button>
+                    
                   </form>
                   &nbsp;
-                  <button class="btn btn-outline-light">
+                  <button class="btn btn-outline-light" onclick="window.location.href='/foodStuff/foodCart'">
                     <span class="fas fa-pizza-slice">
-                  </span> 0
+                  </span> 
+                                        
+                  {% if request.session.quantity %}
+                  {{request.session.quantity}}
+                    {% else %}                    
+                    0
+                  {% endif %}
                   </button>
               </div>
             </div>

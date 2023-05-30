@@ -18,11 +18,3 @@ class FoodProduct(BaseModel):
     #slug = models.SlugField(unique=True,null=True, blank=True)
     def __str__(self):
         return self.foodName
-
-class FoodCart(models.Model):
-    foodProduct = models.ForeignKey(FoodProduct, on_delete=models.CASCADE,related_name="foodCart",null=True,blank=True)
-    foodQuantity = models.PositiveIntegerField()
-    foodPrice = models.DecimalField(max_digits=10, decimal_places=2)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="userCart",null=True,blank=True)
-    def __str__(self):
-        return self.foodName

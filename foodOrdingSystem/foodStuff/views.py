@@ -1,8 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from foodStuff.models import *
+from django.contrib import sessions
 
 # Create your views here.
 def index(request):
+    #request.session.flush()
     allData = FoodCategory.objects.all()    
     return render(request,"foodStuff/index.html",{'foodProduct':allData} )
 
@@ -33,7 +35,42 @@ def search(request):
         return render(request,"foodStuff/foodProducts.html",productParameter)
     return redirect("/foodStuff")
 
-
 def foodDescription(request,foodId):
     productDescription = FoodProduct.objects.get(uid = foodId)
     return render(request,"foodStuff/foodDescription.html",{'productDescription':productDescription})
+
+def addToCart(request):
+    if request.method == "POST":
+        foodId = str(request.POST.get("foodItemId"))
+        foodItem = request.session.get('item')
+        
+        if foodItem:
+            quantity = foodItem.get(foodId)
+            if quantity:
+                foodItem[foodId] = quantity + 1
+            else:
+                foodItem[foodId] = 1
+        else:
+            foodItem = {} 
+            foodItem[foodId] = 1      
+        request.session['item']=foodItem
+        totalCartQuantity = sum(request.session['item'].values())    
+        request.session['quantity']=totalCartQuantity
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def foodCart(request):
+    if request.session.get('item'):
+        cartDictionary = request.session.get('item')
+        keyDict = request.session['item'].keys()
+        keyList = [x for x in keyDict]        
+        cartFoodPrice = []
+        cartPriceDictionary = {}
+        for key in keyList:
+            foodPrice = cartDictionary.get(key) * FoodProduct.objects.get(uid = key).foodPrice
+            cartPriceDictionary[key]=foodPrice
+            cartFoodPrice.append(foodPrice)
+        
+        cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary}
+        print(cartProducts)
+    return render(request,"foodStuff/foodCart.html",cartProducts)
