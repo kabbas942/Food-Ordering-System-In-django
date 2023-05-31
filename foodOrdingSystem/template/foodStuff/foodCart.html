@@ -3,13 +3,12 @@
 
 
 {% block body %}
-#cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary}
 <section class="h-100 gradient-custom">
-    <div class="container py-5">
+    <div class="container">
         <div class="row d-flex justify-content-center my-4">
             <div class="col-md-8">
-                <div class="card  mb-4">
-                    <div class="card-header py-3">
+                <div class="card">
+                    <div class="card-header">
                         <h5 class="mb-0">Food Cart</h5>
                     </div>
                     <div class="card-body ">
@@ -25,7 +24,7 @@
                         
                             
                         <div class="row">
-                            <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                            <div class="col-lg-3 col-md-12 mb-lg-0">
                                 <!-- Image -->
                                 <div class="bg-image hover-overlay hover-zoom ripple rounded"
                                     data-mdb-ripple-color="light">
@@ -37,80 +36,71 @@
                                 <!-- Image -->
                             </div>
 
-                            <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                            <div class="col-lg-5 col-md-6 mb-lg-0">
                                 <!-- Data -->
                                 <p><strong>{{product.foodName}}</strong></p>
                                 <p>Category: {{product.foodCategory}}</p>
                                 <p>Price : ${{product.foodPrice}}</p>
-                                <div class="d-flex mb-4" style="max-width: 300px">
+                                <div class="d-flex" style="max-width: 300px">
                                     {% if foodDictionary %}                                 
                                     {% for itemKey,value  in foodDictionary.items %}
                                  
                                     {% if itemKey|lower == product.uid|lower %}
-                                    <p>Quantity: {{value}}</p>
-    
-                                    {% endif %}
-                                    
+                                    <p>Quantity: {{value}}</p>    
+                                    {% endif %}                                  
                                     
                                     {% endfor %}
                                     {% endif %}
-                                    </div>
-                                
+                                    </div>                                
                                 <!-- Data -->
                             </div>
+                            <div class="col-lg-4 col-md-6 mb-lg-0">
+                                <div class="d-flex mb-4" style="max-width: 300px">
+                                    <button class="btn btn-primary px-3 me-2"
+                                      onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                      <i class="fas fa-minus"></i>
+                                    </button>
+                                    {% if foodDictionary %}                                 
+                                    {% for itemKey,value  in foodDictionary.items %}
+                                 
+                                    {% if itemKey|lower == product.uid|lower %}
+                                    <div class="form-outline">
+                                        <input id="form1" min="1" name="quantity" value="{{value}}" type="number" class="form-control" />
+                                        <label class="form-label" for="form1">Quantity</label>
+                                      </div>   
+                                    {% endif %}                                  
+                                    
+                                    {% endfor %}
+                                    {% endif %}
 
-                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                <!-- Quantity -->
-
-                                <!-- Quantity -->
-
+                  
+                                    <button class="btn btn-primary px-3 ms-2"
+                                      onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                      <i class="fas fa-plus"></i>
+                                    </button>
+                                  </div>
                                 <!-- Price -->
                                 <p class="text-start text-md-center">
                                     {% if productPriceList %}                                 
-                                    {% for itemKey,value  in productPriceList.items %}
-                                 
+                                    {% for itemKey,value  in productPriceList.items %}                                 
                                     {% if itemKey|lower == product.uid|lower %}
                                     <p style="font-weight: bold;">Total Price: ${{value}}</p>
                                     {% endif %}                                                                      
                                     {% endfor %}
                                     {% endif %}
-                                                                    </p>
+                                </p>
                                 <!-- Price -->
                             </div>
                         </div>
                         <!-- Single item -->
-
                         <hr class="my-4" />
-
                         {% endfor %}
-                        {% endif %}
-    
+                        {% endif %}    
                     </div>
                 </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <p><strong>Expected shipping delivery</strong></p>
-                        <p class="mb-0">12.10.2020 - 14.10.2020</p>
-                    </div>
-                </div>
-                <div class="card mb-4 mb-lg-0">
-                    <div class="card-body">
-                        <p><strong>We accept</strong></p>
-                        <img class="me-2" width="45px"
-                            src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-                            alt="Visa" />
-                        <img class="me-2" width="45px"
-                            src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-                            alt="American Express" />
-                        <img class="me-2" width="45px"
-                            src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-                            alt="Mastercard" />
-                        <img class="me-2" width="45px"
-                            src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
-                            alt="PayPal acceptance mark" />
-                    </div>
-                </div>
+                
             </div>
+            
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-header py-3">
