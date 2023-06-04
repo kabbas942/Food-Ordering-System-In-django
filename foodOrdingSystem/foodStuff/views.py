@@ -23,8 +23,7 @@ def search(request):
     if request.method == 'GET':
         query = request.GET.get('foodProductSearch') 
         # Get the search query from the request's GET parameters
-        foodProductList = FoodProduct.objects.filter(foodName__icontains=query)  # Perform case-insensitive search on the 'name' field
-        
+        foodProductList = FoodProduct.objects.filter(foodName__icontains=query)  # Perform case-insensitive search on the 'name' field        
         if foodProductList:
             foodProductList = foodProductList | FoodProduct.objects.filter(foodProductDescription__icontains=query)
             foodProductList = foodProductList | FoodProduct.objects.filter(foodCategory__categoryName__icontains=query)
@@ -42,8 +41,7 @@ def foodDescription(request,foodId):
 def addToCart(request):
     if request.method == "POST":
         foodId = str(request.POST.get("foodItemId"))
-        foodItem = request.session.get('item')
-        
+        foodItem = request.session.get('item')        
         if foodItem:
             quantity = foodItem.get(foodId)
             if quantity:
@@ -69,8 +67,30 @@ def foodCart(request):
         for key in keyList:
             foodPrice = cartDictionary.get(key) * FoodProduct.objects.get(uid = key).foodPrice
             cartPriceDictionary[key]=foodPrice
-            cartFoodPrice.append(foodPrice)
-        
+            cartFoodPrice.append(foodPrice)        
         cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary}
-        print(cartProducts)
-    return render(request,"foodStuff/foodCart.html",cartProducts)
+        return render(request,"foodStuff/foodCart.html",cartProducts)
+    else:       
+        return render(request,"foodStuff/foodCart.html")
+    
+    
+def foodCartUpdateQty(request):
+    if request.method=="POST":
+        #get dictionary from cart quantity control
+        for key, value in request.POST.items():
+            if key.startswith('foodProductId_'):
+                cartProductId=value   
+               
+            if key.startswith('foodUpdateQuantity_'):
+               updateQuantity = value    
+         #get session and store in cart                        
+        cartValue = request.session.get('item')
+        if cartValue:
+           cartValue[cartProductId] =int(updateQuantity)                      
+        request.session['item']=cartValue
+        totalCartQuantity = sum(request.session['item'].values())
+        request.session['quantity']=totalCartQuantity      
+    return redirect("/foodStuff/foodCart")
+
+def checkout(request):
+    return HttpResponse("checkout")

@@ -10,6 +10,7 @@ urlpatterns = [
     path('foodSearch',views.search,name="foodSearch"),
     path('foodDescription/<foodId>',views.foodDescription,name="foodDescription"),
     path('addToCart/',views.addToCart,name="addToCart"),
-    path('foodCart/',views.foodCart,name="foodCart")
-
+    path('foodCart/',views.foodCart,name="foodCart"),
+    path('foodCartUpdateQty/',views.foodCartUpdateQty,name="foodCartUpdateQty"),
+    path('checkout/',views.checkout,name="checkout"),
 ]
