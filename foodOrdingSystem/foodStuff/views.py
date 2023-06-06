@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from foodStuff.models import *
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.contrib import sessions
 
 # Create your views here.
@@ -94,3 +96,28 @@ def foodCartUpdateQty(request):
 
 def checkout(request):
     return HttpResponse("checkout")
+
+
+def placeOrder(request):
+    if request.user.is_anonymous:
+        return redirect('/account/signIn')   
+    else:
+        if request.method == 'GET':
+            userId = User.objects.get(id=request.user.id)
+            print("------")
+            print(userId)
+            print("------")
+            shippingAddress="dfgfdgf"#request.POST.get("shippingAddress")
+            mobileNumber=35345#request.POST.get("mobileNumber")
+            countryName="a"#request.POST.get("countryName")
+            stateName="pending"#request.POST.get("stateName")
+            zipCode=123#request.POST.get("zipCode")
+            OrderNow= Order(customerId=userId,orderAddress=shippingAddress,orderCountry=countryName,orderState=stateName,orderZipCode=zipCode,orderMobileNumber=mobileNumber,orderPrice=33)
+            OrderNow.save()
+            for productDetailId,Qty in request.session['item'].items(): 
+                product= FoodProduct.objects.get(uid=productDetailId)          
+                orderId = Order.objects.get(orderId = OrderNow.pk) 
+                OrderDetailNow = OrderDetail(productId=product, orderId=orderId, orderProductQuantity=Qty,productPrice=product.foodPrice)
+                OrderDetailNow.save()
+            request.session.flush()
+            return redirect("/foodStuff")

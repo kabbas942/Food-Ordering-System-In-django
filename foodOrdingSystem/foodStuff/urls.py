@@ -13,4 +13,6 @@ urlpatterns = [
     path('foodCart/',views.foodCart,name="foodCart"),
     path('foodCartUpdateQty/',views.foodCartUpdateQty,name="foodCartUpdateQty"),
     path('checkout/',views.checkout,name="checkout"),
+    path('placeOrder/',views.placeOrder,name="placeOrder"),
+    
 ]
