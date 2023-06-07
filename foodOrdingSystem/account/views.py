@@ -37,5 +37,5 @@ def signUp(request):
         return render(request,"account/signUp.html")       
     return render(request,"account/signUp.html")
 
-
-
+def userProfile(request):
+    pass
