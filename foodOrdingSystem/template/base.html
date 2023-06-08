@@ -85,18 +85,18 @@
                   </button>
                   &nbsp;
 
-                  <li class="nav-item px-2 dropdown">
+                  <span class="nav-item px-2 dropdown">
                     {% if userName %}
                     <button class="btn btn-outline-light btn-mdbtn-md dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false"><span class="fa fa-user"></span> {{userName}}</button>
                        
                       <ul class="dropdown-menu" aria-labelledby="dropdown01"> 
-                        <li><a class="dropdown-item" href="#">Profile</a></li>  
+                        <li><a class="dropdown-item" href="{% url 'userProfile' %}">Profile</a></li>  
                       <li><a class="dropdown-item" href="#">Logout</a></li>
                       {% else %}
                     <button class="btn btn-outline-light"><i class="fa fa-user"></i> login</button>
                   {% endif %}
                     
-                    </ul>
+                    </ul></span>
                      
               </div>
             </div>
