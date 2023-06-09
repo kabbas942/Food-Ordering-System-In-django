@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+  {% extends 'base.html' %}
 {% block title %}Profile{% endblock title %}
 {% block body %}
 <div class="container-fluid">
@@ -7,19 +7,19 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'userProfile' %}">
+            <a class="nav-link" aria-current="page" href="{% url 'userProfile' %}">
               <span data-feather="home"></span>
               Profile
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'ordersProfile' %}">
+            <a class="nav-link active" href="{% url 'ordersProfile' %}">
               <span data-feather="file"></span>
               Orders
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'addressProfile' %}">
+            <a class="nav-link " href="{% url 'addressProfile' %}">
               <span data-feather="shopping-cart"></span>
               Address
             </a>
@@ -44,16 +44,12 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Profile</h1>
+        <h1 class="h2">Order Placed</h1>
       </div>
       <div style="padding-left: 15%;padding-right: 15%;">
 
-        <form method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button class="btn btn-dark" type="submit">Save</button>
-        </form>
-  
+
+        copy code here
 
       </div>
 

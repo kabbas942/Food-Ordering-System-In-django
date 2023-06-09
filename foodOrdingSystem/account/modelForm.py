@@ -3,27 +3,34 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from account.models import Profile
 
-class accountForm(UserCreationForm):
+class AccountForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields.pop('password1')
         self.fields.pop('password2')
+        
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user      
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')
-        #fields = ('username', 'email', 'password1', 'password2')
-        
+        fields = ('first_name', 'last_name','email') #'username',
         widgets = {
-            'first_name' : forms.TextInput(attrs={'class': 'form-control form-control-md'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control form-control-md'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control form-control-md'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control form-control-md'}),            
-            # Add more fields and their corresponding HTML classes
+            #'username': forms.TextInput(attrs={'class': 'form-control form-control-md'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control form-control-md'}),
         }
+
+
 
 class extendedAccountForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('address', 'zipCode', 'mobileNumber')   
+        fields = ('address', 'zipCode', 'mobileNumber')  
+        exclude = ('password1', 'password2')
         widgets = {
             'address' : forms.TextInput(attrs={'class': 'form-control form-control-md'}),
             'zipCode': forms.TextInput(attrs={'class': 'form-control form-control-md'}),

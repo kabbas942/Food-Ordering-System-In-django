@@ -2,9 +2,10 @@ from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
 from account.models import Profile
 from django.contrib import messages
-from account.modelForm import accountForm,extendedAccountForm
+from account.modelForm import AccountForm,extendedAccountForm
 from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.forms.models import model_to_dict
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -39,42 +40,48 @@ def signUp(request):
     else:
         return render(request,"account/signUp.html")       
     return render(request,"account/signUp.html")
-
+@login_required
 def userProfile(request):    
     if request.user.is_authenticated:         
         userData = User.objects.get(id=request.user.id)
-        profileData = Profile.objects.get(user =request.user.id )
         if request.method == 'POST':
-            #Record = Profile.objects.get(id=userProfileId)
-            form = accountForm(request.POST, instance=userData)
-            extended_form = extendedAccountForm(request.POST)
-            if form.is_valid() and extended_form.is_valid():
-                form.save()
-                extended_user = extended_form.save(commit=False)
-                extended_user.user = userData
-                extended_user.save()
-                return redirect('home')
+            form = AccountForm(request.POST, instance=userData)
+            if form.is_valid():
+                form.save(commit=True)
+                return redirect('/account/profile')
         else:
-            #Record = Profile.objects.get(id=userProfileId) 
-            form = accountForm(instance=userData)
-            extended_form = extendedAccountForm(initial=model_to_dict(profileData))
-            dic = {'form':form,"extended_form": extended_form}
-            return render(request,"account/profile.html", dic)
+            form = AccountForm(instance=userData)
+            return render(request,"account/profile.html", {'form':form})
     return redirect("/foodStuff")
 
 
 def ordersProfile(request):
-    #return render(request,"ordersProfile.html")
-    return HttpResponse("ordersProfile")
+        return render(request,"account/ordersProfile.html")
 
 def addressProfile(request):
+        if request.user.is_authenticated:         
+            profileData = Profile.objects.get(user =request.user.id )
+            if request.method == 'POST':
+                form = extendedAccountForm(request.POST, instance=profileData)
+                if form.is_valid():
+                    form.save(commit=True)
+                    return redirect('/account/profile')
+            else:
+                form = extendedAccountForm(initial=model_to_dict(profileData))
+                return render(request,"account/addressProfile.html", {'form':form})
+        return redirect("/foodStuff")
     #return render(request,"addressProfile.html")
-    return HttpResponse("addressProfile")
 
 
-def passwordReset(request):
-    #return render(request,"passwordReset.html")
-    return HttpResponse("passwordReset")
+
+def resetPassword(request):    
+    return render(request,"account/resetPassword.html")
+
+def baseProfile(request):    
+    return render(request,"account/baseProfile.html")
+
+
+
 
 
 
