@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
 from account.models import Profile
+from foodStuff.models import *
 from django.contrib import messages
 from account.modelForm import AccountForm,extendedAccountForm
 from django.contrib.auth import authenticate,login,logout,get_user_model
@@ -56,7 +57,10 @@ def userProfile(request):
 
 
 def ordersProfile(request):
-        return render(request,"account/ordersProfile.html")
+    orders = Order.objects.filter(customerId =request.user.id)  
+    ordersIdList = [item.orderId for item in orders]
+    orderDic = OrderDetail.objects.filter(orderId__in=ordersIdList)  
+    return render(request,"account/ordersProfile.html",{"orders":orders,"orderDetail":orderDic})
 
 def addressProfile(request):
         if request.user.is_authenticated:         
@@ -77,8 +81,6 @@ def addressProfile(request):
 def resetPassword(request):    
     return render(request,"account/resetPassword.html")
 
-def baseProfile(request):    
-    return render(request,"account/baseProfile.html")
 
 
 

@@ -46,10 +46,65 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Order Placed</h1>
       </div>
-      <div style="padding-left: 15%;padding-right: 15%;">
+      <div style="padding-left:2%;padding-right: 2%;">
+        <table class="table align-middle mb-0 bg-white">
+          <thead class="bg-dark text-light">
+            <tr>
+              <th>Order Id</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Position</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% if orders %}
+              
+              {% for order in orders %}
+              
+              {% for item in orderDetail  %}
+                
+              
+                
+              
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img
+                      src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                      alt=""
+                      style="width: 45px; height: 45px"
+                      class="rounded-circle"
+                      />
+                  <div class="ms-3">
+                    <p class="fw-bold mb-1">{{orderDetail.productId}}</p>
+                    <p class="text-muted mb-0">Order track Number: {{order.orderId}}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="fw-normal mb-1">Software engineer</p>
+                <p class="text-muted mb-0">IT department</p>
+              </td>
+              <td>
+                <span class="badge badge-success rounded-pill d-inline">Active</span>
+              </td>
+              <td>Senior</td>
+              <td>
+                <button type="button" class="btn btn-link btn-sm btn-rounded">
+                  Edit
+                </button>
+              </td>
+            </tr>
+
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
 
 
-        copy code here
 
       </div>
 
