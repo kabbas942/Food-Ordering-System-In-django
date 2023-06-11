@@ -25,8 +25,8 @@ def signIn(request):
 
 
 def signOut(request):
-    #logout(request)
-    return HttpResponse("Logout")
+    logout(request)
+    return redirect('/account/signIn')
 
 def signUp(request):
     if request.method=="POST":
@@ -56,11 +56,16 @@ def userProfile(request):
     return redirect("/foodStuff")
 
 
-def ordersProfile(request):
-    orders = Order.objects.filter(customerId =request.user.id)  
-    ordersIdList = [item.orderId for item in orders]
-    orderDic = OrderDetail.objects.filter(orderId__in=ordersIdList)  
-    return render(request,"account/ordersProfile.html",{"orders":orders,"orderDetail":orderDic})
+def ordersProfile(request):    
+    if request.user.is_authenticated:
+        productDic={}
+        orders = Order.objects.filter(customerId =request.user.id)      
+        ordersIdList = [item.orderId for item in orders]  
+        for itemNumber in ordersIdList:    
+            productList = OrderDetail.objects.filter(orderId = itemNumber)
+            productDic[itemNumber] =  productList       
+        return render(request,"account/ordersProfile.html",{"orders":orders,"orderDetail":productDic})
+    return render(request,"account/signIn.html")
 
 def addressProfile(request):
         if request.user.is_authenticated:         

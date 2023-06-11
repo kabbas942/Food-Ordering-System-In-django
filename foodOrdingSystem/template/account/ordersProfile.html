@@ -31,7 +31,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'signOut' %}">
               <span data-feather="users"></span>
               Logout
             </a>
@@ -47,62 +47,87 @@
         <h1 class="h2">Order Placed</h1>
       </div>
       <div style="padding-left:2%;padding-right: 2%;">
-        <table class="table align-middle mb-0 bg-white">
-          <thead class="bg-dark text-light">
-            <tr>
-              <th>Order Id</th>
-              <th>Title</th>
-              <th>Status</th>
-              <th>Position</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            {% if orders %}
-              
-              {% for order in orders %}
-              
-              {% for item in orderDetail  %}
-                
-              
-                
-              
-            <tr>
-              <td>
-                <div class="d-flex align-items-center">
-                  <img
-                      src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                      alt=""
-                      style="width: 45px; height: 45px"
-                      class="rounded-circle"
-                      />
-                  <div class="ms-3">
-                    <p class="fw-bold mb-1">{{orderDetail.productId}}</p>
-                    <p class="text-muted mb-0">Order track Number: {{order.orderId}}</p>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <p class="fw-normal mb-1">Software engineer</p>
-                <p class="text-muted mb-0">IT department</p>
-              </td>
-              <td>
-                <span class="badge badge-success rounded-pill d-inline">Active</span>
-              </td>
-              <td>Senior</td>
-              <td>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                  Edit
-                </button>
-              </td>
-            </tr>
+        {% if orders %}              
+        {% for order in orders %}        
+       
 
-            {% endfor %}
-            {% endfor %}
-            {% endif %}
-          </tbody>
-        </table>
+          <div class="col-xl-6 mb-4">
+           
+            <div class="card bg-dark" >
+              <div class="p-2  text-light">
+                <p ><h5 style="font-weight:bolder;"> Order Track Code : {{order.orderId}}</h5>
+
+                  <h6 style="font-weight:bolder;"> Total Amount : ${{order.orderPrice}}</h6>
+                  <h7 style="font-weight:bolder;"> Order Date : 2/4/2013</h7>
+              
+                </p>
+
+              </div>
+
+              
+          
+
+  
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <table class="table align-middle mb-0 bg-dark text-light">
+                    <thead class="bg-dark text-light">
+                      <tr>
+                        <th></th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for id,item in orderDetail.items  %}                                          
+                      {% for product in item %}                        
+                      {% if order.orderId == product.orderId.orderId %}
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img
+                                src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                alt=""
+                                style="width: 45px; height: 45px"
+                                class="rounded-circle"
+                                />
+                          </div>
+                        </td>
+                        <td>
+                          <p class="fw-normal mb-1">{{product.productId}}
+                          </p>
+                        </td>
+                        <td>{{product.orderProductQuantity}}</td>
+                        <td>                         
+                            ${{product.productPrice}}
+                        </td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                      
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div
+                class="card-footer border-0 bg-dark text-light p-2 d-flex justify-content-around"
+              >
+              <span> Order Status : <span class="">Pending</span></span>
+              </div>
+            </div>
+         
+          </div>
+
+
+
+            
+
+      {% endfor %}
+      {% endif %}
+
 
 
 
