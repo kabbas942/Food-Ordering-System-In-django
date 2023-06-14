@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from account.models import Profile
 from foodStuff.models import *
 from django.contrib import messages
-from account.modelForm import AccountForm,extendedAccountForm
-from django.contrib.auth import authenticate,login,logout,get_user_model
+from account.modelForm import AccountForm,extendedAccountForm,PasswordChangeForm
+from django.contrib.auth import authenticate,login,logout,get_user_model,update_session_auth_hash
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 
@@ -41,14 +41,15 @@ def signUp(request):
     else:
         return render(request,"account/signUp.html")       
     return render(request,"account/signUp.html")
-@login_required
+
 def userProfile(request):    
     if request.user.is_authenticated:         
         userData = User.objects.get(id=request.user.id)
         if request.method == 'POST':
-            form = AccountForm(request.POST, instance=userData)
+            form = AccountForm(request.POST, instance=request.user)
+
             if form.is_valid():
-                form.save(commit=True)
+                form.save() 
                 return redirect('/account/profile')
         else:
             form = AccountForm(instance=userData)
@@ -68,23 +69,39 @@ def ordersProfile(request):
     return render(request,"account/signIn.html")
 
 def addressProfile(request):
-        if request.user.is_authenticated:         
-            profileData = Profile.objects.get(user =request.user.id )
-            if request.method == 'POST':
-                form = extendedAccountForm(request.POST, instance=profileData)
-                if form.is_valid():
-                    form.save(commit=True)
-                    return redirect('/account/profile')
-            else:
-                form = extendedAccountForm(initial=model_to_dict(profileData))
-                return render(request,"account/addressProfile.html", {'form':form})
-        return redirect("/foodStuff")
+    if request.user.is_authenticated:      
+        try:
+            profileData = Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            # If the Profile doesn't exist, create a new one and associate it with the user
+            profileData = Profile.objects.create(user=request.user)
+
+        if request.method == 'POST':
+            form = extendedAccountForm(request.POST, instance=profileData)
+            if form.is_valid():
+                form.save()
+                return redirect('/account/profile')
+        else:
+            form = extendedAccountForm(initial=model_to_dict(profileData))
+            return render(request, "account/addressProfile.html", {'form': form})
+    return redirect("/foodStuff")
     #return render(request,"addressProfile.html")
 
 
+@login_required
+def resetPassword(request): 
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.save()
+                update_session_auth_hash(request, user)
+                return redirect('/account/profile')
+        else:
+            form = PasswordChangeForm(request.user)
+            return render(request, "account/resetPassword.html", {'form': form})
+   
 
-def resetPassword(request):    
-    return render(request,"account/resetPassword.html")
 
 
 

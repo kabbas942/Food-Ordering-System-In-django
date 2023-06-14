@@ -11,7 +11,7 @@
               <div class="row">
   
                 <div class="col-lg-8">
-                  <h6 class="mb-3"><a href="#!" class="text-body"><i
+                  <h6 class="mb-3"><a href="{% url 'homeFoodStuff' %} " class="text-body"><i
                         class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h6>
                   <hr>
   
@@ -112,15 +112,19 @@
                         <p class="mb-2">Total(Incl. taxes)</p>
                         <p class="mb-2">${{ total |add:10 }}</p>
                       </div>
-  
-                      <button type="button" onclick="window.location.href='/foodStuff/placeOrder'" class="btn btn-info btn-block btn-lg">
-                        <div class="d-flex justify-content-between">
-                          <span>Pay</span>
-                        </div>
-                      </button>
-  
-                    </div>
-                  </div>
+                        
+              {% if foodProducts and profileCheck %}
+              <form id="paymentForm" action="{% url 'placeOrder' %}" method="post">  
+                {% csrf_token %}   
+                 <script src="https://checkout.stripe.com/checkout.js" data-key="{{stripeKey}}" data-descripton="Payment Gateway" class="stripe-button" data-amount="500" data-locale="auto"></script>
+                </form>
+                {% else %}
+                {% if profileCheck == False %}
+                <p>Please Complete Your Profile, Place Order</p>
+                {% endif %}          
+                {% endif %}  
+                </div>
+                </div>
   
                 </div>
   
@@ -137,9 +141,9 @@
     function submitForm(id) {
   document.getElementById("qtyForm_"+id).submit();
 }
-// function removeCartProduct(id){
-  //document.getElementById("delForm_"+id).submit();
-// }
+function paymentForm(){
+  document.getElementById("paymentForm").submit();
+}
 </script>
 
 

@@ -124,6 +124,8 @@ STATIC_URL = '/static/'
 #Added manually
 STATICFILES_DIRS = [os.path.join(BASE_DIR,"static")]
 
+
+
 #managing media
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
@@ -132,3 +134,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51NG0YqBN53EGhRBrB5gCPIzmp9wGzbMoXly6fCLYaOOmoUrLRxB6EXCNSmWSJbjVrrC8cWSlGV2ga58muIRTDPOD00swK7A6Po'
+STRIPE_SECRET_KEY = 'sk_test_51NG0YqBN53EGhRBrt0crYNm7VYl9v3Ny4pMo8rmjYqgw95atDyVB4jqBK4Nyb4jGnWqLau8fGESnF57xLIK11fmO00hlPo2eck'

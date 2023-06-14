@@ -7,8 +7,12 @@ def profileData(request):
     
     if request.user.is_authenticated:
         userId = User.objects.get(id=request.user.id)
+        if userId.last_name:
+            name = userId.last_name
+        else:
+            name= "User"
         custom_data = {
-        'userName':userId.username,        
+        'userName':name,        
         # Add more key-value pairs as needed
         }
         return custom_data
