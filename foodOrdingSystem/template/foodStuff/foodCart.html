@@ -113,7 +113,7 @@
                         <p class="mb-2">${{ total |add:10 }}</p>
                       </div>
                         
-              {% if foodProducts and profileCheck %}
+              {% if foodProducts and user.is_authenticated %}
               <form id="paymentForm" action="{% url 'placeOrder' %}" method="post">  
                 {% csrf_token %}   
                  <script src="https://checkout.stripe.com/checkout.js" data-key="{{stripeKey}}" data-descripton="Payment Gateway" class="stripe-button" data-amount="500" data-locale="auto"></script>

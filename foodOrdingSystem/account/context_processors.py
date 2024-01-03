@@ -17,18 +17,3 @@ def profileData(request):
         }
         return custom_data
     return {}
-'''
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Website</title>
-</head>
-<body>
-    <h1>{{ my_variable }}</h1>
-    <ul>
-        {% for item in my_list %}
-            <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>'''

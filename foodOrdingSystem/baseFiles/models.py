@@ -8,22 +8,4 @@ class BaseModel(models.Model):
     
     class  Meta:
         abstract = True
-        
-        
-'''def cart(request):
-    if request.method=="POST":
-        cartId = int(request.POST.get("cartId"))        
-        cartValue = request.session.get('cart')
-        if cartValue:
-            quantity = cartValue.get(cartId)
-            if quantity:
-                cartValue[cartId] = quantity + 1
-            else:
-                cartValue[cartId] = 1
-        else:
-            cartValue = {} 
-            cartValue[cartId] = 1  
-        request.session['cart']=cartValue
-        totalCartQuantity = sum(request.session['cart'].values())    
-        request.session['quantity']=totalCartQuantity
-        return redirect(request.META.get('HTTP_REFERER'))'''
+ 

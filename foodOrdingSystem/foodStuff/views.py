@@ -17,6 +17,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def index(request):
     #request.session.flush()
     allData = FoodCategory.objects.all()    
+    print(request.user.username)
     return render(request,"foodStuff/index.html",{'foodProduct':allData} )
 
 def productFoodStuff(request,foodId):
@@ -69,7 +70,6 @@ def addToCart(request):
 
 def foodCart(request,**kwargs):
     if request.session.get('item'):
-        profileCheck =Profile.objects.filter(user=request.user)
         cartDictionary = request.session.get('item')
         keyDict = request.session['item'].keys()
         keyList = [x for x in keyDict]        
@@ -79,7 +79,7 @@ def foodCart(request,**kwargs):
             foodPrice = cartDictionary.get(key) * FoodProduct.objects.get(uid = key).foodPrice
             cartPriceDictionary[key]=foodPrice
             cartFoodPrice.append(foodPrice)        
-        cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary,'stripeKey':settings.STRIPE_PUBLISHABLE_KEY,'profileCheck':profileCheck}
+        cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary,'stripeKey':settings.STRIPE_PUBLISHABLE_KEY}
         return render(request,"foodStuff/foodCart.html",cartProducts)
     else:       
         return render(request,"foodStuff/foodCart.html")  
