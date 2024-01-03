@@ -20,7 +20,7 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {% if foodProduct %}          
           {% for product in foodProduct  %} 
-          <a href="/foodStuff/productFoodStuff/{{product.uid}}" class="text-dark" style="text-decoration: none;">        
+          <a href="/productFoodStuff/{{product.uid}}" class="text-dark" style="text-decoration: none;">        
           <div class="col">
             <div class="card shadow-sm">
               <img class="bd-placeholder-img card-img-top" width="100%" height="250px" src="/media/{{product.categoryImage}}">

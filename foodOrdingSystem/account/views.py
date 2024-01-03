@@ -91,29 +91,13 @@ def addressProfile(request):
 def resetPassword(request): 
         if request.method == 'POST':
             passwordForm = PasswordChangeForm(request.user, request.POST)
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print(passwordForm)
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print("____________________")
-            print("____________________")
             if passwordForm.is_valid():
-                print("ldksjflkdslkfjlksdjflsjfl")
                 user = passwordForm.save()
                 user.save()
                 update_session_auth_hash(request, user)
-                print("ldksjflkdslkfjlksdjflsjfl")
                 return redirect('/account/profile')
         else:
             passwordForm = PasswordChangeForm(request.user)
-            print("slkdflkjsdklfkjdflkjdslfjlskdjflks")
             return render(request, "account/resetPassword.html", {'form': passwordForm})
    
 
