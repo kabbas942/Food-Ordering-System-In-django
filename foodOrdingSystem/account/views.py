@@ -88,18 +88,33 @@ def addressProfile(request):
     #return render(request,"addressProfile.html")
 
 
-@login_required
 def resetPassword(request): 
         if request.method == 'POST':
-            form = PasswordChangeForm(request.user, request.POST)
-            if form.is_valid():
-                user = form.save(commit=False)
+            passwordForm = PasswordChangeForm(request.user, request.POST)
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print(passwordForm)
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            print("____________________")
+            if passwordForm.is_valid():
+                print("ldksjflkdslkfjlksdjflsjfl")
+                user = passwordForm.save()
                 user.save()
                 update_session_auth_hash(request, user)
+                print("ldksjflkdslkfjlksdjflsjfl")
                 return redirect('/account/profile')
         else:
-            form = PasswordChangeForm(request.user)
-            return render(request, "account/resetPassword.html", {'form': form})
+            passwordForm = PasswordChangeForm(request.user)
+            print("slkdflkjsdklfkjdflkjdslfjlskdjflks")
+            return render(request, "account/resetPassword.html", {'form': passwordForm})
    
 
 

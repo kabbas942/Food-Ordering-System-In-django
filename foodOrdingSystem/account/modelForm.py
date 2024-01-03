@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm,SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from account.models import Profile
 
@@ -45,7 +45,7 @@ class extendedAccountForm(forms.ModelForm):
         }   
 
  
-class PasswordChangeForm(SetPasswordForm):
+class PasswordChangeForm(PasswordChangeForm):
     #password = forms.CharField(widget=forms.PasswordInput)
     #new_password = forms.CharField(widget=forms.PasswordInput)
     #confirm_password = forms.CharField(widget=forms.PasswordInput)
