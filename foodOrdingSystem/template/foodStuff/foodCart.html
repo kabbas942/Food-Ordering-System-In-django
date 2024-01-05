@@ -118,11 +118,16 @@
                 {% csrf_token %}   
                  <script src="https://checkout.stripe.com/checkout.js" data-key="{{stripeKey}}" data-descripton="Payment Gateway" class="stripe-button" data-amount="500" data-locale="auto"></script>
                 </form>
+
                 {% else %}
-                {% if profileCheck == False %}
-                <p>Please Complete Your Profile, Place Order</p>
+                {% if profile %}
+                <p>Please Complete Your Profile, Place Order</p>{{profile}}
                 {% endif %}          
-                {% endif %}  
+                {% endif %} 
+                
+                {% if profile%}
+                {{profile}}
+                {% endif %}
                 </div>
                 </div>
   

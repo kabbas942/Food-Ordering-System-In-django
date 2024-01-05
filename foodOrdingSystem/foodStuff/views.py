@@ -17,7 +17,6 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def index(request):
     #request.session.flush()
     allData = FoodCategory.objects.all()    
-    print(request.user.username)
     return render(request,"foodStuff/index.html",{'foodProduct':allData} )
 
 def productFoodStuff(request,foodId):
@@ -71,6 +70,13 @@ def addToCart(request):
 def foodCart(request,**kwargs):
     if request.session.get('item'):
         cartDictionary = request.session.get('item')
+        if request.user.is_authenticated:
+            profile=Profile.objects.get(user=request.user)
+
+        else:
+            profile=123
+
+        print(profile.mobileNumber)
         keyDict = request.session['item'].keys()
         keyList = [x for x in keyDict]        
         cartFoodPrice = []
@@ -79,7 +85,7 @@ def foodCart(request,**kwargs):
             foodPrice = cartDictionary.get(key) * FoodProduct.objects.get(uid = key).foodPrice
             cartPriceDictionary[key]=foodPrice
             cartFoodPrice.append(foodPrice)        
-        cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary,'stripeKey':settings.STRIPE_PUBLISHABLE_KEY}
+        cartProducts = {'foodProducts':FoodProduct.objects.filter(uid__in = keyList), 'foodDictionary':cartDictionary,'total':sum(cartFoodPrice),'productPriceList':cartPriceDictionary,'stripeKey':settings.STRIPE_PUBLISHABLE_KEY,'profile':profile}
         return render(request,"foodStuff/foodCart.html",cartProducts)
     else:       
         return render(request,"foodStuff/foodCart.html")  
@@ -100,28 +106,33 @@ def foodCartUpdateQty(request):
         request.session['item']=cartValue
         totalCartQuantity = sum(request.session['item'].values())
         request.session['quantity']=totalCartQuantity      
-    return redirect("/foodStuff/foodCart")
+    return redirect("/foodCart")
 
 def placeOrder(request):
     if request.user.is_anonymous:
         return redirect('/account/signIn')   
     else:
-        if request.method == 'POST':
+        if request.method == 'POST':       
             userId = User.objects.get(id=request.user.id)
-            shippingAddress="dfgfdgf"#request.POST.get("shippingAddress")
-            mobileNumber=35345#request.POST.get("mobileNumber")
-            countryName="a"#request.POST.get("countryName")
-            stateName="pending"#request.POST.get("stateName")
-            zipCode=123#request.POST.get("zipCode")
-            orderPrice=234
-            OrderNow= Order(customerId=userId,orderAddress=shippingAddress,orderCountry=countryName,orderState=stateName,orderZipCode=zipCode,orderMobileNumber=mobileNumber,orderPrice=orderPrice)
+            row=Profile.objects.get(user=userId)
+            shippingAddress=row.address
+            mobileNumber=row.mobileNumber
+            zipCode=row.zipCode
+            orderPrice=0
+            OrderNow= Order(customerId=userId,orderAddress=shippingAddress,orderZipCode=zipCode,orderMobileNumber=mobileNumber,orderPrice=orderPrice)
             OrderNow.save()
+            orderPrice=0
             for productDetailId,Qty in request.session['item'].items(): 
                 product= FoodProduct.objects.get(uid=productDetailId)          
                 orderId = Order.objects.get(orderId = OrderNow.pk) 
+                orderPrice=orderPrice+product.foodPrice
                 OrderDetailNow = OrderDetail(productId=product, orderId=orderId, orderProductQuantity=Qty,productPrice=product.foodPrice)
                 OrderDetailNow.save()
             
+            OrderValue=Order.objects.get(orderId=orderId)
+            OrderValue[orderPrice]=orderPrice
+            OrderValue.save()
+
             token = request.POST.get('stripeToken')
             charge = stripe.Charge.create(amount=orderPrice,  # amount in cents
                         currency='usd',
