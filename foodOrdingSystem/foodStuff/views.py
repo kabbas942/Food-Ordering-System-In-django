@@ -27,8 +27,6 @@ def productFoodStuff(request,foodId):
 def contact(request):
     return render(request,"foodStuff/contact.html") 
 
-def about(request):
-    return render(request,"foodStuff/about.html") 
 
 def search(request):
     if request.method == 'GET':

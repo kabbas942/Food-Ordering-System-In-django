@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'foodStuff.apps.FoodstuffConfig',
-    'account.apps.AccountConfig'
+    'account.apps.AccountConfig',
+    'dashboard.apps.DashboardConfig'
 ]
 
 MIDDLEWARE = [
