@@ -41,7 +41,7 @@ def search(request):
             foodProductList = FoodProduct.objects.filter(foodCategory__categoryName__icontains=query)
             productParameter={'foodProduct':foodProductList,'foodSearch': query}
         return render(request,"foodStuff/foodProducts.html",productParameter)
-    return redirect("/foodStuff")
+    return redirect("/")
 
 def foodDescription(request,foodId):
     productDescription = FoodProduct.objects.get(uid = foodId)
@@ -140,4 +140,4 @@ def placeOrder(request):
             session_key = 'item'  # Replace with the actual session key
             request.session['item'] = {}
             request.session['quantity'] = {}       
-            return redirect("/foodStuff")    
+            return redirect("/")    

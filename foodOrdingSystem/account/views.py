@@ -17,7 +17,7 @@ def signIn(request):
         accountData =authenticate(username=username, password=userPassword) 
         if accountData is not None:
             login(request,accountData)
-            return redirect('/foodStuff')
+            return redirect('/')
         else:
             messages.warning(request, "Email Or Password is Invalid")
             return render(request,'account/signIn.html')
@@ -54,7 +54,7 @@ def userProfile(request):
         else:
             form = AccountForm(instance=userData)
             return render(request,"account/profile.html", {'form':form})
-    return redirect("/foodStuff")
+    return redirect("/")
 
 
 def ordersProfile(request):    
@@ -84,7 +84,7 @@ def addressProfile(request):
         else:
             form = extendedAccountForm(initial=model_to_dict(profileData))
             return render(request, "account/addressProfile.html", {'form': form})
-    return redirect("/foodStuff")
+    return redirect("/")
     #return render(request,"addressProfile.html")
 
 
