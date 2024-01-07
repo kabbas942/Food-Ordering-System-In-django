@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'foodStuff.apps.FoodstuffConfig',
     'account.apps.AccountConfig',
-    'dashboard.apps.DashboardConfig'
+    'dashboard.apps.DashboardConfig',
+    'DataApi.apps.DataapiConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

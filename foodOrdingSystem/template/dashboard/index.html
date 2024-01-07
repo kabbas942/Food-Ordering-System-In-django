@@ -9,50 +9,65 @@
         <div class="py-5">
             <div class="container-fluid">
               <div class="row">
-                <div class="col-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title">Customer</h5>
-                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
-                        </div>
-                      </div>
+                
+                <!-- Data in Numbers -->
+                <div class="container px-4">
+                  <h2>Dashboard</h2>
+                  <table class="table">
+                    <thead>
+                      <tr><b>
+                        Filter by date : </b>
+                      
+                      </tr>
+                      <tr>
+                        <th>From : <input type="date" class="form-control"></th>
+                        <th>TO : <input type="date" class="form-control"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Customer</td>
+                        <td>{{users.count}}</td>
+                      </tr>
+                      <tr>
+                        <td>Order</td>
+                        <td>{{Order.count}}</td>
+                      </tr>
+                      <tr>
+                        <td>Product Sold</td>
+                        <td>{{productSold.count}}</td>
+                      </tr>
+                      <tr>
+                        <td>Products</td>
+                        <td>{{Product.count}}</td>
+                      </tr>
+                      <tr>
+                        <td>Most Purchased Products</td>
+                        <td>
+                          {% if mostProduct %}
+                       
+                            
+                              {% for key, value in mostProduct.items %}
+                                  {{ key }}  - (No. of solds {{ value }})
+                              {% endfor %}
+                              
+                              
+                 
+                          {% else %}
+                          0
+                          {% endif %}
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="col-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title"></h5>Order
-                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
-                        </div>
-                      </div>
-                </div>
-                <div class="col-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title">Products Sold</h5>
-                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
-                        </div>
-                      </div>
-                </div>
-                <div class="col-3">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title">Products</h5>
-                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
-                        </div>
-                      </div>
-                </div>
+                
+                <!-- Data On Chart-->
+
+
+
+
               </div>
             </div>
         </div>
